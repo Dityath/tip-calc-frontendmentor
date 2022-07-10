@@ -1,7 +1,7 @@
 <script setup>
-import HelloWorld from "./components/HelloWorld.vue";
 import Screen from "./components/Screen.vue";
 import Title from "./components/Title.vue";
+import People from "./components/People.vue";
 </script>
 
 <template>
@@ -9,8 +9,16 @@ import Title from "./components/Title.vue";
     <img src="./assets/logo.svg" alt="" />
   </header>
   <main>
-    <Title title="Bill" />
-    <Screen />
+    <div class="flex">
+      <div class="flex-left">
+        <Title title="Bill" />
+        <Screen />
+        <Title title="Select Tip %" />
+        <Title title="Number of People" />
+        <People />
+      </div>
+      <div class="flex-right"></div>
+    </div>
   </main>
 </template>
 
@@ -42,6 +50,12 @@ body {
 #app {
   margin: 0;
   padding: 0;
+}
+
+.flex {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .header-main {

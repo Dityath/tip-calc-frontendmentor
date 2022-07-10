@@ -1,24 +1,24 @@
 <script setup>
 defineProps({
-  screen: Number,
+  peoples: Number,
 });
 </script>
 
 <template>
-  <div class="screen">
-    <img src="../assets/icon-dollar.svg" alt="" />
+  <div class="people">
+    <img src="../assets/icon-person.svg" alt="" />
     <input
       type="text"
-      v-model="screen"
+      v-model="peoples"
       @keyup.enter="onEnter"
       @keyup.backspace="onBackspace"
-      placeholder="Enter amount"
+      placeholder="Enter people"
     />
   </div>
 </template>
 
 <style>
-.screen {
+.people {
   padding: 10px 20px;
   margin-bottom: 20px;
   background-color: var(--neutral-light-cyan);
@@ -28,12 +28,12 @@ defineProps({
   align-items: center;
 }
 
-.screen img {
+.people img {
   width: 10px;
-  height: 16px;
+  height: 14px;
 }
 
-.screen input {
+.people input {
   margin: 0;
   padding: 0;
   font-size: 1.2rem;
@@ -46,7 +46,7 @@ defineProps({
   color: var(--neutral-cyan);
 }
 
-.screen input:focus {
+.people input:focus {
   outline: none;
 }
 </style>
