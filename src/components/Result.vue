@@ -8,22 +8,24 @@ defineProps({
 
 <template>
   <div class="tip-amount">
-    <div class="flex-inside">
-      <div class="flex-box-left">
-        <h3>Tip Amount</h3>
-        <p>/ person</p>
+    <div class="uhh">
+      <div class="flex-inside">
+        <div class="flex-box-left">
+          <h3>Tip Amount</h3>
+          <p>/ person</p>
+        </div>
+        <div class="flex-box-right">
+          <h3>${{ tipAmount }}</h3>
+        </div>
       </div>
-      <div class="flex-box-right">
-        <h3>${{ tipAmount }}</h3>
-      </div>
-    </div>
-    <div class="flex-inside">
-      <div class="flex-box-left">
-        <h3>Total</h3>
-        <p>/ person</p>
-      </div>
-      <div class="flex-box-right">
-        <h3>${{ total }}</h3>
+      <div class="flex-inside">
+        <div class="flex-box-left">
+          <h3>Total</h3>
+          <p>/ person</p>
+        </div>
+        <div class="flex-box-right">
+          <h3>${{ total }}</h3>
+        </div>
       </div>
     </div>
     <button class="btn" @click="onClick">RESET</button>
@@ -39,7 +41,16 @@ defineProps({
   gap: 1rem;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   color: white;
+  height: 100%;
+  width: 100%;
+}
+
+.uhh {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .flex-inside {
@@ -80,5 +91,11 @@ defineProps({
 
 .btn:hover {
   opacity: 0.8;
+}
+
+@media screen and (max-width: 600px) {
+  .tip-amount {
+    padding: 2rem;
+  }
 }
 </style>

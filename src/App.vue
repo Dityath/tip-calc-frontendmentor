@@ -5,6 +5,7 @@ import { ref } from "vue";
 
 const bill = ref(0);
 const tip = ref(5);
+const customTip = ref(null);
 const people = ref(1);
 
 const reset = () => {
@@ -18,39 +19,99 @@ const reset = () => {
   <header class="header-main">
     <img src="./assets/logo.svg" alt="" />
   </header>
-  <main>
-    <div class="flex">
-      <div class="flex-left">
-        <Title title="Bill" />
-        <div class="screen">
-          <img src="./assets/icon-dollar.svg" alt="" />
-          <input v-model="bill" placeholder="Enter amount" />
+  <div class="all">
+    <main>
+      <div class="flex">
+        <div class="flex-left">
+          <Title title="Bill" />
+          <div class="screen">
+            <img src="./assets/icon-dollar.svg" alt="" />
+            <input v-model="bill" placeholder="Enter amount" />
+          </div>
+          <Title title="Select Tip %" error="" />
+          <div class="select-tip">
+            <button
+              @click="
+                tip = 5;
+                customTip = null;
+              "
+              :class="{ active: tip === 5 }"
+            >
+              5%
+            </button>
+            <button
+              @click="
+                tip = 10;
+                customTip = null;
+              "
+              :class="{ active: tip === 10 }"
+            >
+              10%
+            </button>
+            <button
+              @click="
+                tip = 15;
+                customTip = null;
+              "
+              :class="{ active: tip === 15 }"
+            >
+              15%
+            </button>
+            <button
+              @click="
+                tip = 25;
+                customTip = null;
+              "
+              :class="{ active: tip === 25 }"
+            >
+              25%
+            </button>
+            <button
+              @click="
+                tip = 50;
+                customTip = null;
+              "
+              :class="{ active: tip === 50 }"
+            >
+              50%
+            </button>
+            <input
+              type="text"
+              :value="customTip"
+              @input="
+                (event) => {
+                  customTip = event.target.value;
+                  tip = customTip;
+                }
+              "
+              placeholder="Custom"
+            />
+          </div>
+          <Title
+            title="Number of People"
+            :error="people == 0 ? `Can't be zero` : ''"
+          />
+          <div :class="{ screen: true, error: people == 0 || people == NaN }">
+            <img src="./assets/icon-person.svg" alt="" />
+            <input type="text" v-model="people" placeholder="Enter people" />
+          </div>
         </div>
-        <Title title="Select Tip %" />
-        <div class="select-tip">
-          <button @click="tip = 5" :class="{ active: tip === 5 }">5%</button>
-          <button @click="tip = 10" :class="{ active: tip === 10 }">10%</button>
-          <button @click="tip = 15" :class="{ active: tip === 15 }">15%</button>
-          <button @click="tip = 25" :class="{ active: tip === 25 }">25%</button>
-          <button @click="tip = 50" :class="{ active: tip === 50 }">50%</button>
-        </div>
-        <Title title="Number of People" />
-        <div class="screen">
-          <img src="./assets/icon-person.svg" alt="" />
-          <input type="text" v-model="people" placeholder="Enter people" />
+        <div class="flex-right">
+          <Result
+            :tip-amount="
+              people != 0 ? ((bill * tip) / 100 / people).toFixed(2) : 'Err'
+            "
+            :total="
+              people != 0
+                ? (bill / people + (bill * tip) / 100 / people).toFixed(2)
+                : 'Err'
+            "
+            :onClick="reset"
+          />
         </div>
       </div>
-      <div class="flex-right">
-        <Result
-          :tip-amount="
-            people != 0 ? ((bill * tip) / 100 / people).toFixed(2) : 'Err'
-          "
-          :total="people != 0 ? (bill / people).toFixed(2) : 'Err'"
-          :onClick="reset"
-        />
-      </div>
-    </div>
-  </main>
+    </main>
+  </div>
 </template>
 
 <style>
@@ -85,8 +146,17 @@ body {
 
 .flex {
   display: flex;
+  justify-content: space-between;
   flex-direction: column;
   gap: 20px;
+}
+
+.flex-left {
+  width: 100%;
+}
+
+.flex-right {
+  width: 100%;
 }
 
 .header-main {
@@ -96,15 +166,23 @@ body {
   padding: 2rem 0;
 }
 
+.all {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 main {
   padding: 2rem;
   background-color: white;
   border-radius: 1.5rem 1.5rem 0 0;
+  width: 100%;
+  max-width: 800px;
 }
 
 .select-tip {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: repeat(2, calc(50% - 0.5rem));
   gap: 0.75rem;
   margin-bottom: 1rem;
 }
@@ -120,6 +198,20 @@ main {
   border-radius: 0.5rem;
   padding: 0.75rem;
   transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
+}
+
+.select-tip input {
+  box-sizing: border-box;
+  color: var(--neutral-cyan);
+  outline: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  background-color: var(--neutral-light-cyan);
+  border: none;
+  text-align: end;
 }
 
 .select-tip .active {
@@ -146,6 +238,7 @@ main {
 }
 
 .screen input {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
   font-size: 1.2rem;
@@ -160,5 +253,32 @@ main {
 
 .screen input:focus {
   outline: none;
+}
+
+.error {
+  border: 1px solid red;
+  color: red;
+}
+
+@media screen and (min-width: 768px) {
+  .header-main {
+    padding: 4rem;
+  }
+  main {
+    padding: 2rem;
+    border-radius: 1.5rem;
+  }
+  .flex-left {
+    width: 45%;
+  }
+
+  .flex {
+    flex-direction: row;
+    gap: 40px;
+  }
+
+  .select-tip {
+    grid-template-columns: repeat(3, calc(33% - 0.5rem));
+  }
 }
 </style>
